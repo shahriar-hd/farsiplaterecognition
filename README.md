@@ -462,7 +462,7 @@ Special thanks to **Professor Mahdi Heydarian** for guidance and supervision.
 
 | Name | Role | GitHub | Email |
 |------|------|--------|-------|
-| **Amirhossein Khodabakhsh** | Project Lead, YOLO Architecture | - | [amk555hhh@gmail.com](mailto://amk555hhh@gmail.com) |
+| **Amirhossein Khodabakhsh** | Project Lead, YOLO Architecture | @AmirKhobakhsh | [amk555hhh@gmail.com](mailto://amk555hhh@gmail.com) |
 | **Shahriar Hooshmand** | Data Pipeline, Augmentation | [@shahriar-hd](https://github.com/shahriar-hd) | [shahriar.hd@outlook.com](mailto://shahriar.hd@outlook.com) |
 | **Ali Farhadian** | Training, Evaluation | - | [farhadiana93@gmail.com](mailto://farhadiana93@gmail.com) |
 | **Ramtin Amiri** | Raspberry Pi Optimization | - | [amiritin123321@gmail.com](mailto://amiritin123321@gmail.com) |
