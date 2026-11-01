@@ -24,6 +24,7 @@ wheels/
 venv/
 ENV/
 env/
+*.env
 
 # IDE
 .vscode/
@@ -43,6 +44,7 @@ yolo_dataset/labels/
 *.jpeg
 *.png
 *.xml
+hf_space/
 
 # Keep dataset structure but ignore images
 !yolo_dataset/.gitkeep
@@ -58,6 +60,7 @@ yolo_dataset/labels/
 *_ncnn_model/
 runs/
 weights/
+checkpoints/
 
 # Output
 !assets/.gitkeep
@@ -78,3 +81,5 @@ Thumbs.db
 *.tmp
 *.bak
 *.swp
+.uploads/
+hf_space/best.pt

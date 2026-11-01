@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Iranian License Plate Recognition (YOLOv8 ALPR)</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- ONNX Runtime Web for Browser-side Real-time Inference -->
+  <script src="https://cdn.jsdelivr.net/npm/onnxruntime-web@1.18.0/dist/ort.min.js"></script>
+</head>
+<body>
+  <div class="app-container">
+    <header class="app-header">
+      <div class="header-content">
+        <h1>Iranian License Plate Recognition</h1>
+        <p class="subtitle">Real-time Browser ALPR Demo using YOLOv8 & ONNX Runtime Web</p>
+      </div>
+      <div class="header-badges">
+        <span class="badge" id="backendBadge">Engine: CPU / WebAssembly</span>
+        <span class="badge badge-hf"><a href="https://huggingface.co/shahriarhd/iranian-car-plate-recognition-yolov8" target="_blank" rel="noopener">Hugging Face Hub</a></span>
+      </div>
+    </header>
+
+    <main class="main-layout">
+      <!-- Control Panel -->
+      <section class="card controls-card">
+        <h2>Controls & Model</h2>
+
+        <!-- Model Source -->
+        <div class="control-group">
+          <label class="control-label">Model Source:</label>
+          <div class="radio-group">
+            <label>
+              <input type="radio" name="modelSource" value="hf" checked>
+              Hugging Face CDN
+            </label>
+            <label>
+              <input type="radio" name="modelSource" value="local">
+              Custom / Local .onnx
+            </label>
+          </div>
+        </div>
+
+        <!-- HF URL or Local file picker -->
+        <div class="control-group" id="hfInputGroup">
+          <label for="hfModelUrl" class="control-label">Hugging Face ONNX URL:</label>
+          <input type="text" id="hfModelUrl" class="text-input" value="https://huggingface.co/shahriarhd/iranian-car-plate-recognition-yolov8/resolve/main/iran_lpr_yolov8_640.onnx">
+          <button id="loadModelBtn" class="btn btn-primary">Load / Reload Model</button>
+        </div>
+
+        <div class="control-group hidden" id="localInputGroup">
+          <label for="localModelFile" class="control-label">Select local .onnx file:</label>
+          <input type="file" id="localModelFile" accept=".onnx" class="file-input">
+        </div>
+
+        <div id="modelStatus" class="status-msg status-info">Model not loaded. Click "Load Model" to initialize.</div>
+
+        <hr class="divider">
+
+        <!-- Input Source -->
+        <div class="control-group">
+          <label class="control-label">Input Source:</label>
+          <div class="button-grid">
+            <button id="cameraBtn" class="btn btn-secondary">Start Camera</button>
+            <button id="stopCameraBtn" class="btn btn-outline" disabled>Stop Camera</button>
+          </div>
+          <div class="file-input-wrapper">
+            <label for="mediaFileInput" class="btn btn-secondary btn-block">Upload Image / Video</label>
+            <input type="file" id="mediaFileInput" accept="image/*,video/*" class="hidden">
+          </div>
+        </div>
+
+        <!-- Detection Parameters -->
+        <div class="control-group">
+          <label for="confThreshold" class="control-label">
+            Confidence Threshold: <span id="confVal">0.30</span>
+          </label>
+          <input type="range" id="confThreshold" min="0.10" max="0.90" step="0.05" value="0.30">
+          
+          <label for="iouThreshold" class="control-label">
+            IoU (NMS) Threshold: <span id="iouVal">0.45</span>
+          </label>
+          <input type="range" id="iouThreshold" min="0.10" max="0.90" step="0.05" value="0.45">
+        </div>
+      </section>
+
+      <!-- Viewport & Display -->
+      <section class="card viewport-card">
+        <div class="viewport-header">
+          <h2>Real-time Viewport</h2>
+          <div class="fps-indicator">
+            <span class="fps-label">Performance:</span>
+            <span id="fpsDisplay" class="fps-value">0.0 FPS</span>
+            <span id="latencyDisplay" class="latency-value">(0 ms)</span>
+          </div>
+        </div>
+
+        <div class="canvas-wrapper">
+          <video id="webcam" playsinline autoplay muted class="hidden"></video>
+          <canvas id="displayCanvas"></canvas>
+          <div id="loadingOverlay" class="loading-overlay hidden">
+            <div class="spinner"></div>
+            <p id="overlayText">Loading model...</p>
+          </div>
+        </div>
+
+        <div class="viewport-footer">
+          <span id="resolutionInfo">Resolution: 640 x 640</span>
+          <span id="detectedCount">Plates Found: 0</span>
+        </div>
+      </section>
+
+      <!-- Results & Plate Numbers Print Box -->
+      <section class="card results-card">
+        <div class="results-header">
+          <h2>Detected Plates History</h2>
+          <button id="clearHistoryBtn" class="btn btn-sm btn-outline">Clear</button>
+        </div>
+        <p class="results-desc">Real-time decoded Iranian plates from the video or image stream:</p>
+        
+        <div class="plates-print-box" id="platesPrintBox">
+          <div class="empty-state">No plates detected yet. Start camera or upload an image/video.</div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="app-footer">
+      <p>Iranian ALPR (YOLOv8) | Developed for University Project & Open Source Research | Powered by ONNX Runtime Web</p>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
